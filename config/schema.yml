@@ -1,0 +1,3148 @@
+---
+propel:
+  _attributes:   { noXsd: false, package: plugins.avrPhpbbPlugin.lib.model }
+  
+  phpbb_acl_groups:
+    _attributes: { phpName: AclGroup }
+    group_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    forum_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    auth_option_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_acl_options
+      foreignReference: auth_option_id
+    auth_role_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_acl_roles
+      foreignReference: role_id
+    auth_setting:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      group_id:
+        - group_id
+      auth_option_id:
+        - auth_option_id
+      auth_role_id:
+        - auth_role_id
+
+  phpbb_acl_options:
+    _attributes: { phpName: AclOption }
+    auth_option_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    auth_option:
+      type: VARCHAR
+      size: 50
+      required: true
+      primaryKey: true
+      default:
+    is_global:
+      type: TINYINT
+      required: true
+      default: 0
+    is_local:
+      type: TINYINT
+      required: true
+      default: 0
+    founder_only:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      auth_option_id:
+        - auth_option_id
+      auth_option:
+        - auth_option
+
+  phpbb_acl_roles:
+    _attributes: { phpName: AclRole }
+    role_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    role_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    role_description:
+      type: LONGVARCHAR
+      required: true
+      default:
+    role_type:
+      type: VARCHAR
+      size: 10
+      required: true
+      primaryKey: true
+      default:
+    role_order:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      role_id:
+        - role_id
+      role_type:
+        - role_type
+      role_order:
+        - role_order
+
+  phpbb_acl_roles_data:
+    _attributes: { phpName: AclRoleData }
+    role_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_acl_roles
+      foreignReference: role_id
+    auth_option_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_acl_options
+      foreignReference: auth_option_id
+    auth_setting:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      role_id:
+        - role_id
+      auth_option_id:
+        - auth_option_id
+        - auth_option_id
+
+  phpbb_acl_users:
+    _attributes: { phpName: AclUser }
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    forum_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    auth_option_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_acl_options
+      foreignReference: auth_option_id
+    auth_role_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_acl_roles
+      foreignReference: role_id
+    auth_setting:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      user_id:
+        - user_id
+      auth_option_id:
+        - auth_option_id
+      auth_role_id:
+        - auth_role_id
+
+  phpbb_attachments:
+    _attributes: { phpName: Attachment }
+    attach_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    post_msg_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    in_message:
+      type: TINYINT
+      required: true
+      default: 0
+    poster_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    is_orphan:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 1
+    physical_filename:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    real_filename:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    download_count:
+      type: SMALLINT
+      required: true
+      default: 0
+    attach_comment:
+      type: LONGVARCHAR
+      required: true
+      default:
+    extension:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    mimetype:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    filesize:
+      type: INTEGER
+      required: true
+      default: 0
+    filetime:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    thumbnail:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      attach_id:
+        - attach_id
+      filetime:
+        - filetime
+      post_msg_id:
+        - post_msg_id
+      topic_id:
+        - topic_id
+      poster_id:
+        - poster_id
+      is_orphan:
+        - is_orphan
+
+  phpbb_banlist:
+    _attributes: { phpName: Banlist }
+    ban_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    ban_userid:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    ban_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      primaryKey: true
+      default:
+    ban_email:
+      type: VARCHAR
+      size: 100
+      required: true
+      primaryKey: true
+      default:
+    ban_start:
+      type: INTEGER
+      required: true
+      default: 0
+    ban_end:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    ban_exclude:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    ban_reason:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    ban_give_reason:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      ban_id:
+        - ban_id
+      ban_end:
+        - ban_end
+      ban_userid:
+        - ban_userid
+      ban_exclude:
+        - ban_exclude
+        - ban_exclude
+        - ban_exclude
+      ban_email:
+        - ban_email
+      ban_ip:
+        - ban_ip
+
+  phpbb_bbcodes:
+    _attributes: { phpName: Bbcode }
+    bbcode_id:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    bbcode_tag:
+      type: VARCHAR
+      size: 16
+      required: true
+      default:
+    bbcode_helpline:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    display_on_posting:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    bbcode_match:
+      type: LONGVARCHAR
+      required: true
+      default:
+    bbcode_tpl:
+      type: LONGVARCHAR
+      required: true
+      default:
+    first_pass_match:
+      type: LONGVARCHAR
+      required: true
+      default:
+    first_pass_replace:
+      type: LONGVARCHAR
+      required: true
+      default:
+    second_pass_match:
+      type: LONGVARCHAR
+      required: true
+      default:
+    second_pass_replace:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      bbcode_id:
+        - bbcode_id
+      display_on_posting:
+        - display_on_posting
+
+  phpbb_bookmarks:
+    _attributes: { phpName: Bookmark }
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    _indexes:
+      topic_id:
+        - topic_id
+      user_id:
+        - user_id
+
+  phpbb_bots:
+    _attributes: { phpName: Bot }
+    bot_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    bot_active:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 1
+    bot_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    user_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    bot_agent:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    bot_ip:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      bot_id:
+        - bot_id
+      bot_active:
+        - bot_active
+
+  phpbb_config:
+    _attributes: { phpName: Config }
+    config_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      primaryKey: true
+      default:
+    config_value:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    is_dynamic:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      config_name:
+        - config_name
+      is_dynamic:
+        - is_dynamic
+
+  phpbb_confirm:
+    _attributes: { phpName: Confirm }
+    confirm_id:
+      type: CHAR
+      size: 32
+      required: true
+      primaryKey: true
+      default:
+    session_id:
+      type: CHAR
+      size: 32
+      required: true
+      primaryKey: true
+      default:
+      foreignTable: phpbb_sessions
+      foreignReference: session_id
+    confirm_type:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    code:
+      type: VARCHAR
+      size: 8
+      required: true
+      default:
+    seed:
+      type: INTEGER
+      required: true
+      default: 0
+    _indexes:
+      session_id:
+        - session_id
+      confirm_id:
+        - confirm_id
+      confirm_type:
+        - confirm_type
+
+  phpbb_disallow:
+    _attributes: { phpName: Disallow }
+    disallow_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    disallow_username:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      disallow_id:
+        - disallow_id
+
+  phpbb_drafts:
+    _attributes: { phpName: Draft }
+    draft_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    user_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    topic_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    forum_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    save_time:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    draft_subject:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    draft_message:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      draft_id:
+        - draft_id
+      save_time:
+        - save_time
+
+  phpbb_extension_groups:
+    _attributes: { phpName: ExtensionGroup }
+    group_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    group_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    cat_id:
+      type: TINYINT
+      required: true
+      default: 0
+    allow_group:
+      type: TINYINT
+      required: true
+      default: 0
+    download_mode:
+      type: TINYINT
+      required: true
+      default: 1
+    upload_icon:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    max_filesize:
+      type: INTEGER
+      required: true
+      default: 0
+    allowed_forums:
+      type: LONGVARCHAR
+      required: true
+      default:
+    allow_in_pm:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      group_id:
+        - group_id
+
+  phpbb_extensions:
+    _attributes: { phpName: Extension }
+    extension_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    group_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_extension_groups
+      foreignReference: group_id
+    extension:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    _indexes:
+      extension_id:
+        - extension_id
+
+  phpbb_forums:
+    _attributes: { phpName: Forum }
+    forum_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    parent_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    left_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    right_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    forum_parents:
+      type: LONGVARCHAR
+      required: true
+      default:
+    forum_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    forum_desc:
+      type: LONGVARCHAR
+      required: true
+      default:
+    forum_desc_bitfield:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    forum_desc_options:
+      type: INTEGER
+      required: true
+      default: 7
+    forum_desc_uid:
+      type: VARCHAR
+      size: 8
+      required: true
+      default:
+    forum_link:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    forum_password:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    forum_style:
+      type: SMALLINT
+      required: true
+      default: 0
+    forum_image:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    forum_rules:
+      type: LONGVARCHAR
+      required: true
+      default:
+    forum_rules_link:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    forum_rules_bitfield:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    forum_rules_options:
+      type: INTEGER
+      required: true
+      default: 7
+    forum_rules_uid:
+      type: VARCHAR
+      size: 8
+      required: true
+      default:
+    forum_topics_per_page:
+      type: TINYINT
+      required: true
+      default: 0
+    forum_type:
+      type: TINYINT
+      required: true
+      default: 0
+    forum_status:
+      type: TINYINT
+      required: true
+      default: 0
+    forum_posts:
+      type: SMALLINT
+      required: true
+      default: 0
+    forum_topics:
+      type: SMALLINT
+      required: true
+      default: 0
+    forum_topics_real:
+      type: SMALLINT
+      required: true
+      default: 0
+    forum_last_post_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    forum_last_poster_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    forum_last_post_subject:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    forum_last_post_time:
+      type: INTEGER
+      required: true
+      default: 0
+    forum_last_poster_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    forum_last_poster_colour:
+      type: VARCHAR
+      size: 6
+      required: true
+      default:
+    forum_flags:
+      type: TINYINT
+      required: true
+      default: 32
+    display_on_index:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_indexing:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_icons:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_prune:
+      type: TINYINT
+      required: true
+      default: 0
+    prune_next:
+      type: INTEGER
+      required: true
+      default: 0
+    prune_days:
+      type: SMALLINT
+      required: true
+      default: 0
+    prune_viewed:
+      type: SMALLINT
+      required: true
+      default: 0
+    prune_freq:
+      type: SMALLINT
+      required: true
+      default: 0
+    _indexes:
+      forum_id:
+        - forum_id
+      left_id:
+        - left_id
+      right_id:
+        - right_id
+      forum_last_post_id:
+        - forum_last_post_id
+
+  phpbb_forums_access:
+    _attributes: { phpName: ForumAccess }
+    forum_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    session_id:
+      type: CHAR
+      size: 32
+      required: true
+      primaryKey: true
+      default:
+      foreignTable: phpbb_sessions
+      foreignReference: session_id
+    _indexes:
+      forum_id:
+        - forum_id
+      user_id:
+        - user_id
+      session_id:
+        - session_id
+
+  phpbb_forums_track:
+    _attributes: { phpName: ForumTrack }
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    forum_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    mark_time:
+      type: INTEGER
+      required: true
+      default: 0
+    _indexes:
+      user_id:
+        - user_id
+      forum_id:
+        - forum_id
+
+  phpbb_forums_watch:
+    _attributes: { phpName: ForumWatch }
+    forum_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    notify_status:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      forum_id:
+        - forum_id
+      user_id:
+        - user_id
+      notify_status:
+        - notify_status
+
+  phpbb_groups:
+    _attributes: { phpName: Group }
+    group_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    group_type:
+      type: TINYINT
+      required: true
+      default: 1
+    group_founder_manage:
+      type: TINYINT
+      required: true
+      default: 0
+    group_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    group_desc:
+      type: LONGVARCHAR
+      required: true
+      default:
+    group_desc_bitfield:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    group_desc_options:
+      type: INTEGER
+      required: true
+      default: 7
+    group_desc_uid:
+      type: VARCHAR
+      size: 8
+      required: true
+      default:
+    group_display:
+      type: TINYINT
+      required: true
+      default: 0
+    group_avatar:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    group_avatar_type:
+      type: TINYINT
+      required: true
+      default: 0
+    group_avatar_width:
+      type: SMALLINT
+      required: true
+      default: 0
+    group_avatar_height:
+      type: SMALLINT
+      required: true
+      default: 0
+    group_rank:
+      type: SMALLINT
+      required: true
+      default: 0
+    group_colour:
+      type: VARCHAR
+      size: 6
+      required: true
+      default:
+    group_sig_chars:
+      type: SMALLINT
+      required: true
+      default: 0
+    group_receive_pm:
+      type: TINYINT
+      required: true
+      default: 0
+    group_message_limit:
+      type: SMALLINT
+      required: true
+      default: 0
+    group_legend:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 1
+    _indexes:
+      group_id:
+        - group_id
+      group_legend:
+        - group_legend
+
+  phpbb_icons:
+    _attributes: { phpName: Icon }
+    icons_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    icons_url:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    icons_width:
+      type: TINYINT
+      required: true
+      default: 0
+    icons_height:
+      type: TINYINT
+      required: true
+      default: 0
+    icons_order:
+      type: SMALLINT
+      required: true
+      default: 0
+    display_on_posting:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 1
+    _indexes:
+      icons_id:
+        - icons_id
+      display_on_posting:
+        - display_on_posting
+
+  phpbb_lang:
+    _attributes: { phpName: Lang }
+    lang_id:
+      type: TINYINT
+      required: true
+      primaryKey: true
+    lang_iso:
+      type: VARCHAR
+      size: 30
+      required: true
+      primaryKey: true
+      default:
+    lang_dir:
+      type: VARCHAR
+      size: 30
+      required: true
+      default:
+    lang_english_name:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    lang_local_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    lang_author:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      lang_id:
+        - lang_id
+      lang_iso:
+        - lang_iso
+
+  phpbb_log:
+    _attributes: { phpName: Log }
+    log_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    log_type:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    forum_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    reportee_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    log_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    log_time:
+      type: INTEGER
+      required: true
+      default: 0
+    log_operation:
+      type: LONGVARCHAR
+      required: true
+      default:
+    log_data:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      log_id:
+        - log_id
+      log_type:
+        - log_type
+      forum_id:
+        - forum_id
+      topic_id:
+        - topic_id
+      reportee_id:
+        - reportee_id
+      user_id:
+        - user_id
+
+  phpbb_moderator_cache:
+    _attributes: { phpName: ModeratorCache }
+    forum_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    user_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    username:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    group_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    group_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    display_on_index:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 1
+    _indexes:
+      display_on_index:
+        - display_on_index
+      forum_id:
+        - forum_id
+
+  phpbb_modules:
+    _attributes: { phpName: Module }
+    module_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    module_enabled:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 1
+    module_display:
+      type: TINYINT
+      required: true
+      default: 1
+    module_basename:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    module_class:
+      type: VARCHAR
+      size: 10
+      required: true
+      primaryKey: true
+      default:
+    parent_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_modules
+      foreignReference: module_id
+    left_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_modules
+      foreignReference: module_id
+    right_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_modules
+      foreignReference: module_id
+    module_langname:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    module_mode:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    module_auth:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      module_id:
+        - module_id
+      left_id:
+        - left_id
+        - left_id
+      right_id:
+        - right_id
+      module_enabled:
+        - module_enabled
+      module_class:
+        - module_class
+
+  phpbb_poll_options:
+    _attributes: { phpName: PollOption }
+    poll_option_id:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    poll_option_text:
+      type: LONGVARCHAR
+      required: true
+      default:
+    poll_option_total:
+      type: SMALLINT
+      required: true
+      default: 0
+    _indexes:
+      poll_option_id:
+        - poll_option_id
+      topic_id:
+        - topic_id
+
+  phpbb_poll_votes:
+    _attributes: { phpName: PollVote }
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    poll_option_id:
+      type: TINYINT
+      required: true
+      default: 0
+    vote_user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    vote_user_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      primaryKey: true
+      default:
+    _indexes:
+      topic_id:
+        - topic_id
+      vote_user_id:
+        - vote_user_id
+      vote_user_ip:
+        - vote_user_ip
+
+  phpbb_posts:
+    _attributes: { phpName: Post }
+    post_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      autoIncrement: true
+    topic_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    forum_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    poster_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    icon_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_icons
+      foreignReference: icons_id
+    poster_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    post_time:
+      type: INTEGER
+      required: true
+      default: 0
+    post_approved:
+      type: TINYINT
+      required: true
+      default: 1
+    post_reported:
+      type: TINYINT
+      required: true
+      default: 0
+    enable_bbcode:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_smilies:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_magic_url:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_sig:
+      type: TINYINT
+      required: true
+      default: 1
+    post_username:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    post_subject:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    post_text:
+      type: LONGVARCHAR
+      required: true
+      default:
+    post_checksum:
+      type: VARCHAR
+      size: 32
+      required: true
+      default:
+    post_attachment:
+      type: TINYINT
+      required: true
+      default: 0
+    bbcode_bitfield:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    bbcode_uid:
+      type: VARCHAR
+      size: 8
+      required: true
+      default:
+    post_postcount:
+      type: TINYINT
+      required: true
+      default: 1
+    post_edit_time:
+      type: INTEGER
+      required: true
+      default: 0
+    post_edit_reason:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    post_edit_user:
+      type: SMALLINT
+      required: true
+      default: 0
+    post_edit_count:
+      type: SMALLINT
+      required: true
+      default: 0
+    post_edit_locked:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      post_id:
+        - post_id
+      forum_id:
+        - forum_id
+      topic_id:
+        - topic_id
+        - topic_id
+      poster_ip:
+        - poster_ip
+      poster_id:
+        - poster_id
+      post_approved:
+        - post_approved
+      post_time:
+        - post_time
+
+  phpbb_privmsgs:
+    _attributes: { phpName: Privmsg }
+    msg_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    root_level:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    author_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    icon_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_icons
+      foreignReference: icons_id
+    author_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      primaryKey: true
+      default:
+    message_time:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    enable_bbcode:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_smilies:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_magic_url:
+      type: TINYINT
+      required: true
+      default: 1
+    enable_sig:
+      type: TINYINT
+      required: true
+      default: 1
+    message_subject:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    message_text:
+      type: LONGVARCHAR
+      required: true
+      default:
+    message_edit_reason:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    message_edit_user:
+      type: SMALLINT
+      required: true
+      default: 0
+    message_attachment:
+      type: TINYINT
+      required: true
+      default: 0
+    bbcode_bitfield:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    bbcode_uid:
+      type: VARCHAR
+      size: 8
+      required: true
+      default:
+    message_edit_time:
+      type: INTEGER
+      required: true
+      default: 0
+    message_edit_count:
+      type: SMALLINT
+      required: true
+      default: 0
+    to_address:
+      type: LONGVARCHAR
+      required: true
+      default:
+    bcc_address:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      msg_id:
+        - msg_id
+      author_ip:
+        - author_ip
+      message_time:
+        - message_time
+      author_id:
+        - author_id
+      root_level:
+        - root_level
+
+  phpbb_privmsgs_folder:
+    _attributes: { phpName: PrivmsgFolder }
+    folder_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    folder_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    pm_count:
+      type: SMALLINT
+      required: true
+      default: 0
+    _indexes:
+      folder_id:
+        - folder_id
+      user_id:
+        - user_id
+
+  phpbb_privmsgs_rules:
+    _attributes: { phpName: PrivmsgRule }
+    rule_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    rule_check:
+      type: SMALLINT
+      required: true
+      default: 0
+    rule_connection:
+      type: SMALLINT
+      required: true
+      default: 0
+    rule_string:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    rule_user_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    rule_group_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    rule_action:
+      type: SMALLINT
+      required: true
+      default: 0
+    rule_folder_id:
+      type: INTEGER
+      required: true
+      default: 0
+    _indexes:
+      rule_id:
+        - rule_id
+      user_id:
+        - user_id
+
+  phpbb_privmsgs_to:
+    _attributes: { phpName: PrivmsgTo }
+    msg_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    author_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    pm_deleted:
+      type: TINYINT
+      required: true
+      default: 0
+    pm_new:
+      type: TINYINT
+      required: true
+      default: 1
+    pm_unread:
+      type: TINYINT
+      required: true
+      default: 1
+    pm_replied:
+      type: TINYINT
+      required: true
+      default: 0
+    pm_marked:
+      type: TINYINT
+      required: true
+      default: 0
+    pm_forwarded:
+      type: TINYINT
+      required: true
+      default: 0
+    folder_id:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      msg_id:
+        - msg_id
+      author_id:
+        - author_id
+      user_id:
+        - user_id
+      folder_id:
+        - folder_id
+
+  phpbb_profile_fields:
+    _attributes: { phpName: ProfileField }
+    field_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    field_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    field_type:
+      type: TINYINT
+      required: true
+      default: 0
+    field_ident:
+      type: VARCHAR
+      size: 20
+      required: true
+      default:
+    field_length:
+      type: VARCHAR
+      size: 20
+      required: true
+      default:
+    field_minlen:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    field_maxlen:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    field_novalue:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    field_default_value:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    field_validation:
+      type: VARCHAR
+      size: 20
+      required: true
+      default:
+    field_required:
+      type: TINYINT
+      required: true
+      default: 0
+    field_show_on_reg:
+      type: TINYINT
+      required: true
+      default: 0
+    field_hide:
+      type: TINYINT
+      required: true
+      default: 0
+    field_no_view:
+      type: TINYINT
+      required: true
+      default: 0
+    field_active:
+      type: TINYINT
+      required: true
+      default: 0
+    field_order:
+      type: SMALLINT
+      required: true
+      default: 0
+    _indexes:
+      field_id:
+        - field_id
+      field_type:
+        - field_type
+      field_order:
+        - field_order
+
+  phpbb_profile_fields_data:
+    _attributes: { phpName: ProfileFieldData }
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    pf_about:
+      type: LONGVARCHAR
+    pf_name:
+      type: VARCHAR
+      size: 255
+      default:
+    pf_show_name:
+      type: BOOLEAN
+      default: 1
+    pf_remember_key:
+      type: VARCHAR
+      size: 40
+    _indexes:
+      user_id:
+        - user_id
+
+  phpbb_profile_fields_lang:
+    _attributes: { phpName: ProfileFieldLang }
+    field_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_profile_fields
+      foreignReference: field_id
+    lang_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_lang
+      foreignReference: lang_id
+    option_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    field_type:
+      type: TINYINT
+      required: true
+      default: 0
+    lang_value:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      field_id:
+        - field_id
+      lang_id:
+        - lang_id
+      option_id:
+        - option_id
+
+  phpbb_profile_lang:
+    _attributes: { phpName: ProfileLang }
+    field_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    lang_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    lang_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    lang_explain:
+      type: LONGVARCHAR
+      required: true
+      default:
+    lang_default_value:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      field_id:
+        - field_id
+      lang_id:
+        - lang_id
+
+  phpbb_ranks:
+    _attributes: { phpName: Rank }
+    rank_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    rank_title:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    rank_min:
+      type: SMALLINT
+      required: true
+      default: 0
+    rank_special:
+      type: TINYINT
+      required: true
+      default: 0
+    rank_image:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      rank_id:
+        - rank_id
+
+  phpbb_reports:
+    _attributes: { phpName: Report }
+    report_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    reason_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    post_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    user_notify:
+      type: TINYINT
+      required: true
+      default: 0
+    report_closed:
+      type: TINYINT
+      required: true
+      default: 0
+    report_time:
+      type: INTEGER
+      required: true
+      default: 0
+    report_text:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      report_id:
+        - report_id
+
+  phpbb_reports_reasons:
+    _attributes: { phpName: ReportReason }
+    reason_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    reason_title:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    reason_description:
+      type: LONGVARCHAR
+      required: true
+      default:
+    reason_order:
+      type: SMALLINT
+      required: true
+      default: 0
+    _indexes:
+      reason_id:
+        - reason_id
+
+  phpbb_search_results:
+    _attributes: { phpName: SearchResult }
+    search_key:
+      type: VARCHAR
+      size: 32
+      required: true
+      primaryKey: true
+      default:
+    search_time:
+      type: INTEGER
+      required: true
+      default: 0
+    search_keywords:
+      type: LONGVARCHAR
+      required: true
+      default:
+    search_authors:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      search_key:
+        - search_key
+
+  phpbb_search_wordlist:
+    _attributes: { phpName: SearchWordlist }
+    word_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    word_text:
+      type: VARCHAR
+      size: 255
+      required: true
+      primaryKey: true
+      default:
+    word_common:
+      type: TINYINT
+      required: true
+      default: 0
+    word_count:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      word_id:
+        - word_id
+      word_text:
+        - word_text
+      word_count:
+        - word_count
+
+  phpbb_search_wordmatch:
+    _attributes: { phpName: SearchWordmatch }
+    post_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    word_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    title_match:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      word_id:
+        - word_id
+        - word_id
+      post_id:
+        - post_id
+        - post_id
+      title_match:
+        - title_match
+
+  phpbb_sessions:
+    _attributes: { phpName: Session }
+    session_id:
+      type: CHAR
+      size: 32
+      required: true
+      primaryKey: true
+      default:
+    session_user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    session_last_visit:
+      type: INTEGER
+      required: true
+      default: 0
+    session_start:
+      type: INTEGER
+      required: true
+      default: 0
+    session_time:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    session_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    session_browser:
+      type: VARCHAR
+      size: 150
+      required: true
+      default:
+    session_forwarded_for:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    session_page:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    session_viewonline:
+      type: TINYINT
+      required: true
+      default: 1
+    session_autologin:
+      type: TINYINT
+      required: true
+      default: 0
+    session_admin:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      session_id:
+        - session_id
+      session_time:
+        - session_time
+      session_user_id:
+        - session_user_id
+
+  phpbb_sessions_keys:
+    _attributes: { phpName: SessionKey }
+    key_id:
+      type: CHAR
+      size: 32
+      required: true
+      primaryKey: true
+      default:
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    last_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    last_login:
+      type: INTEGER
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      key_id:
+        - key_id
+      user_id:
+        - user_id
+      last_login:
+        - last_login
+
+  phpbb_sitelist:
+    _attributes: { phpName: Sitelist }
+    site_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    site_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    site_hostname:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    ip_exclude:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      site_id:
+        - site_id
+
+  phpbb_smilies:
+    _attributes: { phpName: Smily }
+    smiley_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    code:
+      type: VARCHAR
+      size: 50
+      required: true
+      default:
+    emotion:
+      type: VARCHAR
+      size: 50
+      required: true
+      default:
+    smiley_url:
+      type: VARCHAR
+      size: 50
+      required: true
+      default:
+    smiley_width:
+      type: SMALLINT
+      required: true
+      default: 0
+    smiley_height:
+      type: SMALLINT
+      required: true
+      default: 0
+    smiley_order:
+      type: SMALLINT
+      required: true
+      default: 0
+    display_on_posting:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 1
+    _indexes:
+      smiley_id:
+        - smiley_id
+      display_on_posting:
+        - display_on_posting
+
+  phpbb_styles:
+    _attributes: { phpName: Style }
+    style_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    style_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      primaryKey: true
+      default:
+    style_copyright:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    style_active:
+      type: TINYINT
+      required: true
+      default: 1
+    template_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    theme_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    imageset_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      style_id:
+        - style_id
+      style_name:
+        - style_name
+      template_id:
+        - template_id
+      theme_id:
+        - theme_id
+      imageset_id:
+        - imageset_id
+
+  phpbb_styles_imageset:
+    _attributes: { phpName: StyleImageset }
+    imageset_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    imageset_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      primaryKey: true
+      default:
+    imageset_copyright:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    imageset_path:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    _indexes:
+      imageset_id:
+        - imageset_id
+      imageset_name:
+        - imageset_name
+
+  phpbb_styles_imageset_data:
+    _attributes: { phpName: StyleImagesetData }
+    image_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    image_name:
+      type: VARCHAR
+      size: 200
+      required: true
+      default:
+    image_filename:
+      type: VARCHAR
+      size: 200
+      required: true
+      default:
+    image_lang:
+      type: VARCHAR
+      size: 30
+      required: true
+      default:
+    image_height:
+      type: SMALLINT
+      required: true
+      default: 0
+    image_width:
+      type: SMALLINT
+      required: true
+      default: 0
+    imageset_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      image_id:
+        - image_id
+      imageset_id:
+        - imageset_id
+
+  phpbb_styles_template:
+    _attributes: { phpName: StyleTemplate }
+    template_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    template_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      primaryKey: true
+      default:
+    template_copyright:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    template_path:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    bbcode_bitfield:
+      type: VARCHAR
+      size: 255
+      required: true
+      default: kNg=
+    template_storedb:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      template_id:
+        - template_id
+      template_name:
+        - template_name
+
+  phpbb_styles_template_data:
+    _attributes: { phpName: StyleTemplateData }
+    template_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    template_filename:
+      type: VARCHAR
+      size: 100
+      required: true
+      primaryKey: true
+      default:
+    template_included:
+      type: LONGVARCHAR
+      required: true
+      default:
+    template_mtime:
+      type: INTEGER
+      required: true
+      default: 0
+    template_data:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      template_id:
+        - template_id
+      template_filename:
+        - template_filename
+
+  phpbb_styles_theme:
+    _attributes: { phpName: StyleTheme }
+    theme_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    theme_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      primaryKey: true
+      default:
+    theme_copyright:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    theme_path:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    theme_storedb:
+      type: TINYINT
+      required: true
+      default: 0
+    theme_mtime:
+      type: INTEGER
+      required: true
+      default: 0
+    theme_data:
+      type: LONGVARCHAR
+      required: true
+      default:
+    _indexes:
+      theme_id:
+        - theme_id
+      theme_name:
+        - theme_name
+
+  phpbb_topics:
+    _attributes: { phpName: Topic }
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      autoIncrement: true
+    forum_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    icon_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    topic_attachment:
+      type: TINYINT
+      required: true
+      default: 0
+    topic_approved:
+      type: TINYINT
+      required: true
+      default: 1
+    topic_reported:
+      type: TINYINT
+      required: true
+      default: 0
+    topic_title:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    topic_poster:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    topic_time:
+      type: INTEGER
+      required: true
+      default: 0
+    topic_time_limit:
+      type: INTEGER
+      required: true
+      default: 0
+    topic_views:
+      type: SMALLINT
+      required: true
+      default: 0
+    topic_replies:
+      type: SMALLINT
+      required: true
+      default: 0
+    topic_replies_real:
+      type: SMALLINT
+      required: true
+      default: 0
+    topic_status:
+      type: TINYINT
+      required: true
+      default: 0
+    topic_type:
+      type: TINYINT
+      required: true
+      default: 0
+    topic_first_post_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    topic_first_poster_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    topic_first_poster_colour:
+      type: VARCHAR
+      size: 6
+      required: true
+      default:
+    topic_last_post_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    topic_last_poster_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    topic_last_poster_name:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    topic_last_poster_colour:
+      type: VARCHAR
+      size: 6
+      required: true
+      default:
+    topic_last_post_subject:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    topic_last_post_time:
+      type: INTEGER
+      required: true
+      default: 0
+    topic_last_view_time:
+      type: INTEGER
+      required: true
+      default: 0
+    topic_moved_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    topic_bumped:
+      type: TINYINT
+      required: true
+      default: 0
+    topic_bumper:
+      type: SMALLINT
+      required: true
+      default: 0
+    poll_title:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    poll_start:
+      type: INTEGER
+      required: true
+      default: 0
+    poll_length:
+      type: INTEGER
+      required: true
+      default: 0
+    poll_max_options:
+      type: TINYINT
+      required: true
+      default: 1
+    poll_last_vote:
+      type: INTEGER
+      required: true
+      default: 0
+    poll_vote_change:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      topic_id:
+        - topic_id
+      forum_id:
+        - forum_id
+        - forum_id
+        - forum_id
+        - forum_id
+      topic_type:
+        - topic_type
+      topic_last_post_time:
+        - topic_last_post_time
+        - topic_last_post_time
+      topic_approved:
+        - topic_approved
+        - topic_approved
+      topic_last_post_id:
+        - topic_last_post_id
+      topic_moved_id:
+        - topic_moved_id
+
+  phpbb_topics_posted:
+    _attributes: { phpName: TopicPosted }
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    topic_posted:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      user_id:
+        - user_id
+      topic_id:
+        - topic_id
+
+  phpbb_topics_track:
+    _attributes: { phpName: TopicTrack }
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    forum_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_forums
+      foreignReference: forum_id
+    mark_time:
+      type: INTEGER
+      required: true
+      default: 0
+    _indexes:
+      user_id:
+        - user_id
+      topic_id:
+        - topic_id
+      forum_id:
+        - forum_id
+
+  phpbb_topics_watch:
+    _attributes: { phpName: TopicWatch }
+    topic_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_topics
+      foreignReference: topic_id
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    notify_status:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+    _indexes:
+      topic_id:
+        - topic_id
+      user_id:
+        - user_id
+      notify_status:
+        - notify_status
+
+  phpbb_user_group:
+    _attributes: { phpName: UserGroup }
+    group_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_groups
+      foreignReference: group_id
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    group_leader:
+      type: TINYINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    user_pending:
+      type: TINYINT
+      required: true
+      default: 1
+    _indexes:
+      group_id:
+        - group_id
+      user_id:
+        - user_id
+      group_leader:
+        - group_leader
+
+  phpbb_users:
+    _attributes: { phpName: User }
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    user_type:
+      type: TINYINT
+      required: true
+      default: 0
+    group_id:
+      type: SMALLINT
+      required: true
+      default: 3
+      foreignTable: phpbb_groups
+      foreignReference: group_id
+    user_permissions:
+      type: LONGVARCHAR
+      required: true
+      default:
+    user_perm_from:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_ip:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    user_regdate:
+      type: INTEGER
+      required: true
+      default: 0
+    username:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    username_clean:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+      index: true
+    user_password:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    user_passchg:
+      type: INTEGER
+      required: true
+      default: 0
+    user_pass_convert:
+      type: TINYINT
+      required: true
+      default: 0
+    user_email:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    user_email_hash:
+      type: BIGINT
+      required: true
+      default: 0
+    user_birthday:
+      type: VARCHAR
+      size: 10
+      required: true
+      default:
+    user_lastvisit:
+      type: INTEGER
+      required: true
+      default: 0
+    user_lastmark:
+      type: INTEGER
+      required: true
+      default: 0
+    user_lastpost_time:
+      type: INTEGER
+      required: true
+      default: 0
+    user_lastpage:
+      type: VARCHAR
+      size: 200
+      required: true
+      default:
+    user_last_confirm_key:
+      type: VARCHAR
+      size: 10
+      required: true
+      default:
+    user_last_search:
+      type: INTEGER
+      required: true
+      default: 0
+    user_warnings:
+      type: TINYINT
+      required: true
+      default: 0
+    user_last_warning:
+      type: INTEGER
+      required: true
+      default: 0
+    user_login_attempts:
+      type: TINYINT
+      required: true
+      default: 0
+    user_inactive_reason:
+      type: TINYINT
+      required: true
+      default: 0
+    user_inactive_time:
+      type: INTEGER
+      required: true
+      default: 0
+    user_posts:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_lang:
+      type: VARCHAR
+      size: 30
+      required: true
+      default:
+    user_timezone:
+      type: DECIMAL
+      size: 5
+      scale: 2
+      required: true
+      default: 0.00
+    user_dst:
+      type: TINYINT
+      required: true
+      default: 0
+    user_dateformat:
+      type: VARCHAR
+      size: 30
+      required: true
+      default: d M Y H:i
+    user_style:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_rank:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_colour:
+      type: VARCHAR
+      size: 6
+      required: true
+      default:
+    user_new_privmsg:
+      type: INTEGER
+      required: true
+      default: 0
+    user_unread_privmsg:
+      type: INTEGER
+      required: true
+      default: 0
+    user_last_privmsg:
+      type: INTEGER
+      required: true
+      default: 0
+    user_message_rules:
+      type: TINYINT
+      required: true
+      default: 0
+    user_full_folder:
+      type: INTEGER
+      required: true
+      default: -3
+    user_emailtime:
+      type: INTEGER
+      required: true
+      default: 0
+    user_topic_show_days:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_topic_sortby_type:
+      type: VARCHAR
+      size: 1
+      required: true
+      default: t
+    user_topic_sortby_dir:
+      type: VARCHAR
+      size: 1
+      required: true
+      default: d
+    user_post_show_days:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_post_sortby_type:
+      type: VARCHAR
+      size: 1
+      required: true
+      default: t
+    user_post_sortby_dir:
+      type: VARCHAR
+      size: 1
+      required: true
+      default: a
+    user_notify:
+      type: TINYINT
+      required: true
+      default: 0
+    user_notify_pm:
+      type: TINYINT
+      required: true
+      default: 1
+    user_notify_type:
+      type: TINYINT
+      required: true
+      default: 0
+    user_allow_pm:
+      type: TINYINT
+      required: true
+      default: 1
+    user_allow_viewonline:
+      type: TINYINT
+      required: true
+      default: 1
+    user_allow_viewemail:
+      type: TINYINT
+      required: true
+      default: 1
+    user_allow_massemail:
+      type: TINYINT
+      required: true
+      default: 1
+    user_options:
+      type: INTEGER
+      required: true
+      default: 895
+    user_avatar:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    user_avatar_type:
+      type: TINYINT
+      required: true
+      default: 0
+    user_avatar_width:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_avatar_height:
+      type: SMALLINT
+      required: true
+      default: 0
+    user_sig:
+      type: LONGVARCHAR
+      required: true
+      default:
+    user_sig_bbcode_uid:
+      type: VARCHAR
+      size: 8
+      required: true
+      default:
+    user_sig_bbcode_bitfield:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    user_from:
+      type: VARCHAR
+      size: 100
+      required: true
+      default:
+    user_icq:
+      type: VARCHAR
+      size: 15
+      required: true
+      default:
+    user_aim:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    user_yim:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    user_msnm:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    user_jabber:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    user_website:
+      type: VARCHAR
+      size: 200
+      required: true
+      default:
+    user_occ:
+      type: LONGVARCHAR
+      required: true
+      default:
+    user_interests:
+      type: LONGVARCHAR
+      required: true
+      default:
+    user_actkey:
+      type: VARCHAR
+      size: 32
+      required: true
+      default:
+    user_newpasswd:
+      type: VARCHAR
+      size: 40
+      required: true
+      default:
+    user_form_salt:
+      type: VARCHAR
+      size: 32
+      required: true
+      default:
+    _indexes:
+      user_id:
+        - user_id
+      user_birthday:
+        - user_birthday
+      user_email_hash:
+        - user_email_hash
+      user_type:
+        - user_type
+
+  phpbb_warnings:
+    _attributes: { phpName: Warning }
+    warning_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    user_id:
+      type: SMALLINT
+      required: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    post_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    log_id:
+      type: SMALLINT
+      required: true
+      default: 0
+    warning_time:
+      type: INTEGER
+      required: true
+      default: 0
+    _indexes:
+      warning_id:
+        - warning_id
+
+  phpbb_words:
+    _attributes: { phpName: Word }
+    word_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+    word:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    replacement:
+      type: VARCHAR
+      size: 255
+      required: true
+      default:
+    _indexes:
+      word_id:
+        - word_id
+
+  phpbb_zebra:
+    _attributes: { phpName: Zebra }
+    user_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+      foreignTable: phpbb_users
+      foreignReference: user_id
+    zebra_id:
+      type: SMALLINT
+      required: true
+      primaryKey: true
+      default: 0
+    friend:
+      type: TINYINT
+      required: true
+      default: 0
+    foe:
+      type: TINYINT
+      required: true
+      default: 0
+    _indexes:
+      user_id:
+        - user_id
+      zebra_id:
+        - zebra_id

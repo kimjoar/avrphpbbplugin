@@ -1,0 +1,22 @@
+fields:
+  username:
+    required:
+      msg:         Username cannot be left blank
+    userValidator:
+  password:
+    required:
+      msg:         Password cannot be left blank
+
+fillin:
+  enabled:         true
+  param:
+    name: login
+    exclude_types: [hidden, password]
+    converters:
+      htmlspecialchars: [username]
+
+userValidator:
+  class: avrPhpbbAuthValidator
+  param:
+    password_field: password
+    remember_field: remember
