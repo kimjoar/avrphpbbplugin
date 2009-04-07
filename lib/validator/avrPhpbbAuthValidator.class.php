@@ -19,11 +19,14 @@ class avrPhpbbAuthValidator extends sfValidator
   private $blockedKey;
   private $safetyMeasures;
   private $maxBlockTime;
+  private $prefix;
   
   public function initialize($context, $parameters = null)
   {
     // initialize parent
     parent::initialize($context);
+
+    $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'phpbb');
 
     // safety vars
     $this->blockedKey = 'signin_' . $context->getRequest()->getHttpHeader('addr', 'remote');
@@ -58,7 +61,7 @@ class avrPhpbbAuthValidator extends sfValidator
     $remember_field = $this->getParameterHolder()->get('remember_field');
     $remember = $this->getContext()->getRequest()->getParameter($remember_field);
 
-    $user = UserPeer::getUserByUsername($username);
+    $user = myPropelTools::invokePeerMethod($this->prefix . 'User', 'getUserByUsername', $username);
 
     // user exists?
     // password is ok?
