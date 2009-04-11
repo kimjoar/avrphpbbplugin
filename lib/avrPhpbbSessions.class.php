@@ -40,12 +40,12 @@ class avrPhpbbSessions
     $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
 
     $c = new Criteria();
-    myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'SESSION_USER_ID', $params['userId']);
+    myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_user_id', $params['userId']);
 
     if ($params['sessionId']) {
-      myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'SESSION_ID', md5($params['sessionId']));
+      myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_id', md5($params['sessionId']));
     } else {
-      myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'SESSION_IP', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
+      myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_ip', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
     }
 
     myPropelTools::invokePeerMethod($prefix . 'Sessions', 'doDelete', $c);
@@ -70,13 +70,12 @@ class avrPhpbbSessions
     $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
 
     $c = new Criteria();
-    myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'USER_ID', $params['userId']);
+    myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'user_id', $params['userId']);
 
-    if ($params['SessionsKeys']) {
-      myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'LAST_IP', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
+    if ($params['sessionKey']) {
+      myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'key_id', md5($params['sessionKey']));
     } else {
-      myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'KEY_ID', md5($params['SessionsKeys']));
-      $c->add(SessionKeyPeer::KEY_ID, md5($params['SessionsKeys']));
+      myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'last_ip', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
     }
     
     myPropelTools::invokePeerMethod($prefix . 'SessionsKeys', 'doDelete', $c);

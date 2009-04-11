@@ -34,6 +34,20 @@ function _phpbb_get_schemas()
   return $schemas;
 }
 
+/*
+function _phpbb_get_foreign_table($database, $table, $column, $attributes)
+{
+  $specific = array(
+    'phpbb_acl_groups' => array('auth_option_id' => 'phpbb_acl_options', 'auth_role_id' => 'phpbb_acl_roles'),
+    'phpbb_acl_options' => array('auth_option_id' => NULL, ),
+    'phpbb_acl_roles' => array('role_id' => NULL,),
+    'phpbb_acl_roles_data' => 
+    'phpbb_extension_groups' => array('group_id' => NULL, ),
+    'phpbb_extensions' => array('group_id' => 'phpbb_extension_groups'),
+  );
+}
+*/
+
 /**
 * Rebuilds the entire search index.
 */
@@ -67,16 +81,10 @@ function run_phpbb_transform($task, $args)
       }
 
       foreach ($columns AS $column => $attributes) {
-/*
-        $specific = array(
-          'phpbb_acl_groups' => array('auth_option_id' => 'phpbb_acl_options', 'auth_role_id' => 'phpbb_acl_roles'),
-          'phpbb_acl_options' => array('auth_option_id' => NULL, ),
-          'phpbb_acl_roles' => array('role_id' => NULL,),
-          'phpbb_extension_groups' => array('group_id' => NULL, ),
-          'phpbb_extensions' => array('group_id' => 'phpbb_extension_groups'),
-        );
-*/
-              
+        if ($attributes['primaryKey'] == 1) {
+          continue;
+        }
+        
         $pos = strpos($column, '_id');
         if ($pos > 0 && $pos == strlen($column) - 3) {
           $raw = substr($column, 0, $pos);
@@ -100,10 +108,11 @@ function run_phpbb_transform($task, $args)
             $foreign_table = $table;
           }
           
-          if (!$foreign_table) {
-            echo '# ' . $column . " (" . $table . ")\n";
-          } else {
-            echo $column . " (" . $table . ") -> " . $foreign_table . "\n";
+          if ($foreign_table && array_key_exists($column, $database[$foreign_table])) {
+            $database[$table][$column] = array_merge($database[$table][$column], array(
+              'foreignTable'     => $foreign_table,
+              'foreignReference' => $column
+            ));
           }
           
           unset($foreign_table);

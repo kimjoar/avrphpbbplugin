@@ -20,6 +20,10 @@ class avrPhpbbAutoLoginFilter extends sfBasicSecurityFilter
   {
     $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
 
+    if ($this->getContext()->getUser()->isAuthenticated() && $this->getContext()->getRequest()->getCookie(avrPhpbbConfig::getCookieName() . '_u') != $this->getContext()->getUser()->getUserId()) {
+      $this->getContext()->getUser()->signOut();
+    }
+
     // We only want to invoke the remembering filter if the user is not already authenticated
     if ($this->isFirstCall() && !$this->getContext()->getUser()->isAuthenticated()) {
       $cookieName = avrPhpbbConfig::getCookieName();

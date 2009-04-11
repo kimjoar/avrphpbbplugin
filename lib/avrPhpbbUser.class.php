@@ -18,15 +18,17 @@ class avrPhpbbUser
 {
   public static function getModeratorGroups($user)
   {
-    $groups = array();
-    foreach ($user->getUserGroupsRelatedByUserId() AS $group) {
-      $groupName = GroupPeer::getModeratorGroupById($group->getGroupId());
-  
-      if (!is_null($groupName)) {
-        $groups[] = $groupName;
-      }
+    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    
+    $c = new Criteria();
+    myPropelTools::criteriaAdd($c, $prefix . 'UserGroup', 'user_id', $user->getUserId());
+    myPropelTools::criteriaAddJoin($c, $prefix . 'UserGroup', 'group_id', $prefix . 'Groups', 'group_id');
+
+    $groups = array();    
+    foreach(myPropelTools::invokePeerMethod($prefix . 'Groups', 'doSelect', $c) AS $group) {
+      $groups[] = $group->getGroupName();
     }
-  
+    
     return $groups;
   }
 }

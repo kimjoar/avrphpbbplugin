@@ -100,6 +100,18 @@ class myPropelTools
 
     return $criteria->add(constant($class_name . 'Peer::' . self::getColumnName($class_name, $field_name)), $value, $comparison);
   }
+  
+  public static function criteriaAddJoin(&$criteria, $class_name1, $field_name1, $class_name2, $field_name2)
+  {
+    if(!self::isPropelModelClass($class_name1)) {
+      throw new Exception('Class ' . $class_name1  . ' is not valid Propel Model class');
+    }
+    if(!self::isPropelModelClass($class_name2)) {
+      throw new Exception('Class ' . $class_name2  . ' is not valid Propel Model class');
+    }
+
+    return $criteria->addJoin(constant($class_name1 . 'Peer::' . self::getColumnName($class_name1, $field_name1)), constant($class_name2 . 'Peer::' . self::getColumnName($class_name2, $field_name2)));
+  }
 
   public static function getRowSet($class_name, $select_fields = null, $conditon_fields = null, $method = 'doSelectRS')
   {
