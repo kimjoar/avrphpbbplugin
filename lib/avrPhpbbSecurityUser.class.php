@@ -28,7 +28,7 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   {
     parent::initialize($context, $parameters);
 
-    $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'phpbb');
+    $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
 
     if (!$this->isAuthenticated()) {
       // remove user if timeout
@@ -73,19 +73,7 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   public function signIn($user, $remember = false, $con = null)
   {
     $this->signInPhpbb($user);
-
-    // signin
-    $this->setAttribute('user_id', $user->getUserId(), 'avrPhpbbSecurityUser');
-    $this->setAuthenticated(true);
-
-    // credentials
-    $this->clearCredentials();
-    $this->addCredential('user');
-    $this->addCredentials($user->getModeratorGroups());
-
-    // save last login
-    $user->setUserLastvisit(time());
-    $user->save($con);
+    $this->signInSymfony($user);
 
     if ($remember) {
       $this->remember($user);
@@ -104,13 +92,30 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
     $this->setAuthenticated(false);
 
     // remove remember cookie
-    $lifetime = sfConfig::get('app_users_remember_me_lifetime', 60 * 60 * 24 * 14);
-    $cookieName = sfConfig::get('app_users_remember_cookie_name', 'avrPhpbbRememberKey');
+    $lifetime = sfConfig::get('app_avrPhpbb_remember_lifetime', 60 * 60 * 24 * 14);
+    $cookieName = sfConfig::get('app_avrPhpbb_remember_cookie_name', 'avrPhpbbRememberKey');
   
     sfContext::getInstance()->getResponse()->setCookie($cookieName, '', time() - $lifetime);
   }
 
-  protected function signInPhpbb($user)
+  public function signInSymfony($user)
+  {
+    var_dump(avrPhpbbUser::getModeratorGroups($user));die;
+    // signin
+    $this->setAttribute('user_id', $user->getUserId(), 'avrPhpbbSecurityUser');
+    $this->setAuthenticated(true);
+
+    // credentials
+    $this->clearCredentials();
+    $this->addCredential('user');
+    $this->addCredentials(avrPhpbbUser::getModeratorGroups($user));
+
+    // save last login
+    $user->setUserLastvisit(time());
+    $user->save($con);
+  }
+
+  public function signInPhpbb($user)
   {
     $sessionId  = substr($this->generateRandomKey() . $this->generateRandomKey(), 0, 32);
     $sessionKey = '';
@@ -126,9 +131,9 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   protected function remember($user)
   {
     $rememberKey = $user->getUserRememberKey();
-    $cookieName = sfConfig::get('app_users_remember_cookie_name', 'avrPhpbbRememberKey');
+    $cookieName = sfConfig::get('app_avrPhpbb_remember_cookie_name', 'avrPhpbbRememberKey');
     $key = base64_encode(serialize(array($rememberKey, $user->getUserId())));
-    $lifetime = sfConfig::get('app_users_remember_me_lifetime', 60 * 60 * 24 * 14);
+    $lifetime = sfConfig::get('app_avrPhpbb_remember_lifetime', 60 * 60 * 24 * 14);
 
     sfContext::getInstance()->getResponse()->setCookie($cookieName, $key, time() + $lifetime, '/');
   }
@@ -144,10 +149,10 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   protected function insertSession($params)
   {
     if ('' != $params['sessionKey']) {
-      myPropelTools::invokePeerMethod($this->prefix . 'SessionKey', 'create', $params);
+      avrPhpbbSessions::createSessionKey($params);
     }
 
-    myPropelTools::invokePeerMethod($this->prefix . 'Session', 'create', $params);
+    avrPhpbbSessions::createSession($params);
 
     $this->setCookies($params);
   }
@@ -156,8 +161,8 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   {
     $cookieValues = $this->getCookies();
 
-    myPropelTools::invokePeerMethod($this->prefix . 'Session', 'delete', $cookieValues);
-    myPropelTools::invokePeerMethod($this->prefix . 'SessionKey', 'delete', $cookieValues);
+    avrPhpbbSessions::deleteSession($cookieValues);
+    avrPhpbbSessions::deleteSessionKey($cookieValues);
 
     $this->unsetCookies();
   }
@@ -178,7 +183,7 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   {
     $cookiename = myPropelTools::invokePeerMethod($this->prefix . 'Config', 'getCookieName');
     $domain = myPropelTools::invokePeerMethod($this->prefix . 'Config', 'getCookieDomain');
-    $lifetime = time() + sfConfig::get('app_phpbb_cookie_lifetime', 60 * 60 * 24 * 14);
+    $lifetime = time() + sfConfig::get('app_avrPhpbb_cookie_lifetime', 60 * 60 * 24 * 14);
 
     $response = sfContext::getInstance()->getResponse();
     $response->setCookie($cookieName . '_k',   $params['sessionKey'], $lifetime, '/', $domain);

@@ -18,11 +18,11 @@ class avrPhpbbRememberMeFilter extends sfBasicSecurityFilter
 {
   public function execute($filterChain)
   {
-    $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'phpbb');
+    $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
 
     // We only want to invoke the remembering filter if the user is not already authenticated
     if ($this->isFirstCall() && !$this->getContext()->getUser()->isAuthenticated()) {
-      if ($cookie = $this->getContext()->getRequest()->getCookie(sfConfig::get('app_users_remember_cookie_name', 'avrPhpbbRememberKey'))) {
+      if ($cookie = $this->getContext()->getRequest()->getCookie(sfConfig::get('app_avrPhpbb_remember_cookie_name', 'avrPhpbbRememberKey'))) {
         $key = unserialize(base64_decode($cookie));
 
         $c = new Criteria();
@@ -37,7 +37,6 @@ class avrPhpbbRememberMeFilter extends sfBasicSecurityFilter
         }
       }
     }
-
     $filterChain->execute();
   }
 }
