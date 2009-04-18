@@ -18,6 +18,11 @@ abstract class BaseavrPhpbbActions extends sfActions
 {
   public function executeSignin()
   {
+    if ($this->getModuleName() != ($module = sfConfig::get('sf_login_module')))
+    {
+      return $this->redirect($module . '/' . sfConfig::get('sf_login_action'));
+    }
+
     $user = $this->getUser();
 
     if ($user->isAuthenticated())
@@ -27,14 +32,15 @@ abstract class BaseavrPhpbbActions extends sfActions
 
     if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
+      echo 'post';die;
       // Redirects in the following priority:
       // 1. URL set in app.yml
       // 2. referer
-      // 3. homepage
+      // 3. @homepage from routes
       
       $referer = $user->getAttribute('referer', '@homepage');
       $user->getAttributeHolder()->remove('referer');
-      $signinUrl = sfConfig::get('app_sf_guard_plugin_success_signin_url', $referer);
+      $signinUrl = sfConfig::get('app_phpnbb_success_signin_url', $referer);
 
       return $this->redirect('' != $signinUrl ? $signinUrl : '@homepage');
     }
@@ -42,11 +48,6 @@ abstract class BaseavrPhpbbActions extends sfActions
     // if we have been forwarded, then the referer is the current URL
     // if not, this is the referer of the current request
     $user->setAttribute('referer', $this->getContext()->getActionStack()->getSize() > 1 ? $this->getRequest()->getUri() : $this->getRequest()->getReferer());
-
-//    if ($this->getModuleName() != ($module = sfConfig::get('sf_login_module')))
-//    {
-//      return $this->redirect($module.'/'.sfConfig::get('sf_login_action'));
-//    }
 
     $this->getResponse()->setStatusCode(401);
   }

@@ -120,7 +120,8 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
 
   public function signInPhpbb($user)
   {
-    if ($user->getUserId() == 1) {
+    // We do not sign in the Anonymous user.
+    if (1 == $user->getUserId()) {
       return;
     }
 

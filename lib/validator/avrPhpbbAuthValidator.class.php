@@ -38,7 +38,7 @@ class avrPhpbbAuthValidator extends sfValidator
     $this->getParameterHolder()->set('password_field', 'password');
     $this->getParameterHolder()->set('remember_field', 'remember');
     $this->getParameterHolder()->set('blocked', 'You are blocked, and therefore not able to log in the next ' . $this->maxBlockTime . ' seconds.');
-    $this->getParameterHolder()->set('confirmation', 'You cannot log in until you have confirmed your user, you should have received an email with a confirmation link.');
+    $this->getParameterHolder()->set('activation', 'You cannot log in until you have activated your user, you should have received an email with a activation link.');
 
     $this->getParameterHolder()->add($parameters);
 
@@ -61,13 +61,13 @@ class avrPhpbbAuthValidator extends sfValidator
     $remember_field = $this->getParameterHolder()->get('remember_field');
     $remember = $this->getContext()->getRequest()->getParameter($remember_field);
 
-    $user = myPropelTools::invokePeerMethod($this->prefix . 'User', 'getUserByUsername', $username);
+    $user = avrPhpbbUser::getUserByUsername($username);
 
     // user exists?
     // password is ok?
     if ($user && $user->checkPassword($password)) {
-      if (!$user->isConfirmed()) {
-        $error = $this->getParameterHolder()->get('confirmation');
+      if (!avrPhpbbUser::isActivated($user)) {
+        $error = $this->getParameterHolder()->get('activation');
         return false;
       }
 
