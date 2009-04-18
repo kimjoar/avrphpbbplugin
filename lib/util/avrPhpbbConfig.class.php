@@ -71,7 +71,7 @@ class avrPhpbbConfig
    */
   public static function getConfigValueFor($input)
   {
-    $cache = sfConfig::get('app_avrPhpbb_cache', false);
+    $cache = sfConfig::get('app_phpbb_cache', false);
 
     if (!$cache) {
       $configValues = self::getConfigValues();
@@ -117,7 +117,7 @@ class avrPhpbbConfig
 
   private static function getConfigValues($dynamic = null)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
     $c = new Criteria();
 
     if (is_null($dynamic)) {
@@ -134,7 +134,7 @@ class avrPhpbbConfig
 
   public static function setConfigValueFor($input, $value)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
     $c = new Criteria();
 
     myPropelTools::criteriaAdd($c, $prefix . 'Config', 'config_name', $input);

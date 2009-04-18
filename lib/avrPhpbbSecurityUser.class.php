@@ -28,7 +28,7 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   {
     parent::initialize($context, $parameters);
 
-    $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $this->prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
 
     if (!$this->isAuthenticated()) {
       // remove user if timeout
@@ -92,8 +92,8 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
     $this->setAuthenticated(false);
 
     // remove remember cookie
-    $lifetime = sfConfig::get('app_avrPhpbb_remember_lifetime', 60 * 60 * 24 * 14);
-    $cookieName = sfConfig::get('app_avrPhpbb_remember_cookie_name', 'avrPhpbbRememberKey');
+    $lifetime = sfConfig::get('app_phpbb_remember_lifetime', 60 * 60 * 24 * 14);
+    $cookieName = sfConfig::get('app_phpbb_remember_cookie_name', 'avrPhpbbRememberKey');
   
     sfContext::getInstance()->getResponse()->setCookie($cookieName, '', time() - $lifetime);
   }
@@ -138,9 +138,9 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   protected function remember($user)
   {
     $rememberKey = $user->getUserRememberKey();
-    $cookieName = sfConfig::get('app_avrPhpbb_remember_cookie_name', 'avrPhpbbRememberKey');
+    $cookieName = sfConfig::get('app_phpbb_remember_cookie_name', 'avrPhpbbRememberKey');
     $key = base64_encode(serialize(array($rememberKey, $user->getUserId())));
-    $lifetime = sfConfig::get('app_avrPhpbb_remember_lifetime', 60 * 60 * 24 * 14);
+    $lifetime = sfConfig::get('app_phpbb_remember_lifetime', 60 * 60 * 24 * 14);
 
     sfContext::getInstance()->getResponse()->setCookie($cookieName, $key, time() + $lifetime, '/');
   }
@@ -190,7 +190,7 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   {
     $cookieName = avrPhpbbConfig::getCookieName();
     $domain = avrPhpbbConfig::getCookieDomain();
-    $lifetime = time() + sfConfig::get('app_avrPhpbb_cookie_lifetime', 60 * 60 * 24 * 14);
+    $lifetime = time() + sfConfig::get('app_phpbb_cookie_lifetime', 60 * 60 * 24 * 14);
 
     $response = sfContext::getInstance()->getResponse();
     $response->setCookie($cookieName . '_k',   $params['sessionKey'], $lifetime, '/', $domain);

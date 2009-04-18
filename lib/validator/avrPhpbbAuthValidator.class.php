@@ -20,13 +20,13 @@ class avrPhpbbAuthValidator extends sfValidator
   private $safetyMeasures;
   private $maxBlockTime;
   private $prefix;
-  
+
   public function initialize($context, $parameters = null)
   {
     // initialize parent
     parent::initialize($context);
 
-    $this->prefix = sfConfig::get('app_avrPhpbb_prefix', 'phpbb');
+    $this->prefix = sfConfig::get('app_phpbb_prefix', 'phpbb');
 
     // safety vars
     $this->blockedKey = 'signin_' . $context->getRequest()->getHttpHeader('addr', 'remote');

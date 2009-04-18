@@ -18,7 +18,7 @@ class avrPhpbbUser
 {
   public static function getModeratorGroups($user)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
     
     $c = new Criteria();
     myPropelTools::criteriaAdd($c, $prefix . 'UserGroup', 'user_id', $user->getUserId());

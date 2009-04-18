@@ -17,7 +17,7 @@ class avrPhpbbSessions
 { 
   public static function createSession($params)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
 
     $class = new ReflectionClass($prefix . 'Sessions');
     $session = $class->newInstance();
@@ -37,7 +37,7 @@ class avrPhpbbSessions
 
   public static function deleteSession($params)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
 
     $c = new Criteria();
     myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_user_id', $params['userId']);
@@ -53,7 +53,7 @@ class avrPhpbbSessions
 
   public static function createSessionKey($params)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
 
     $class = new ReflectionClass($prefix . 'SessionsKeys');
     $sessionKey = $class->newInstance();
@@ -67,7 +67,7 @@ class avrPhpbbSessions
 
   public static function deleteSessionKey($params)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
 
     $c = new Criteria();
     myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'user_id', $params['userId']);
@@ -83,7 +83,7 @@ class avrPhpbbSessions
   
   public static function checkCookie($cookieName)
   {
-    $prefix = sfConfig::get('app_avrPhpbb_prefix', 'Phpbb');
+    $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
     $request = sfContext::getInstance()->getRequest();
 
     $sessionKey = $request->getCookie($cookieName . '_k');
