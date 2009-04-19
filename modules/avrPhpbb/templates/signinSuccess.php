@@ -1,6 +1,16 @@
 <div class="span-16 append-1">
   <?php echo form_tag('@avr_phpbb_signin', array('name' => 'login')) ?>
   
+<?php if ($sf_request->hasErrors()): ?>
+  <p>The data you entered seems to be incorrect.
+  Please correct the following errors and resubmit:</p>
+  <ul>
+  <?php foreach($sf_request->getErrors() as $name => $error): ?>
+    <li><?php echo $name ?>: <?php echo $error ?></li>
+  <?php endforeach; ?>
+  </ul>
+<?php endif; ?>
+  
     <fieldset>
       <legend>Your details</legend>
 

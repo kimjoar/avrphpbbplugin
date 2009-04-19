@@ -2,7 +2,7 @@ fields:
   username:
     required:
       msg:         Username cannot be left blank
-    userValidator:
+    avrPhpbbAuthValidator:
   password:
     required:
       msg:         Password cannot be left blank
@@ -15,7 +15,7 @@ fillin:
     converters:
       htmlspecialchars: [username]
 
-userValidator:
+avrPhpbbAuthValidator:
   class: avrPhpbbAuthValidator
   param:
     password_field: password

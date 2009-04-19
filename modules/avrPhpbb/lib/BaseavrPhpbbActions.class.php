@@ -25,14 +25,8 @@ abstract class BaseavrPhpbbActions extends sfActions
 
     $user = $this->getUser();
 
-    if ($user->isAuthenticated())
-    {
-      $this->redirect('@homepage');
-    }
-
     if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
-      echo 'post';die;
       // Redirects in the following priority:
       // 1. URL set in app.yml
       // 2. referer
@@ -40,9 +34,14 @@ abstract class BaseavrPhpbbActions extends sfActions
       
       $referer = $user->getAttribute('referer', '@homepage');
       $user->getAttributeHolder()->remove('referer');
-      $signinUrl = sfConfig::get('app_phpnbb_success_signin_url', $referer);
+      $signinUrl = sfConfig::get('app_phpbb_success_signin_url', $referer);
 
       return $this->redirect('' != $signinUrl ? $signinUrl : '@homepage');
+    }
+
+    if ($user->isAuthenticated())
+    {
+      $this->redirect('@homepage');
     }
 
     // if we have been forwarded, then the referer is the current URL
@@ -56,7 +55,7 @@ abstract class BaseavrPhpbbActions extends sfActions
   {
     $this->getUser()->signOut();
 
-    $signoutUrl = sfConfig::get('app_sf_guard_plugin_success_signout_url', $this->getRequest()->getReferer());
+    $signoutUrl = sfConfig::get('app_phpbb_success_signout_url', $this->getRequest()->getReferer());
 
     $this->redirect('' != $signoutUrl ? $signoutUrl : '@homepage');
   }
