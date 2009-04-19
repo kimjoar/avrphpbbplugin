@@ -6,13 +6,13 @@
  * Copied from the Symfony snippet page, but adapted too our needs.
  * @see http://www.symfony-project.org/snippets/snippet/155
  */
-class myPropelTools
+class avrPropelTools
 {
   /**
    * Return the propel connection name.
    *
    * Usage:
-   * $data = SomeClass:doSelect($criteria, myPropelTools::getConnection())
+   * $data = SomeClass:doSelect($criteria, avrPropelTools::getConnection())
    *
    * @return string
    */

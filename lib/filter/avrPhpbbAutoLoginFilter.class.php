@@ -38,7 +38,7 @@ class avrPhpbbAutoLoginFilter extends sfBasicSecurityFilter
       // If the cookies are ok, the user gets signed in.
       if (avrPhpbbSessions::checkCookie($cookieName)) {
         $userId = $this->getContext()->getRequest()->getCookie($cookieName . '_u');
-        $user = myPropelTools::invokePeerMethod($this->prefix . 'Users', 'retrieveByPk', $userId);
+        $user = avrPropelTools::invokePeerMethod($this->prefix . 'Users', 'retrieveByPk', $userId);
         
         // Since the user is already signed in to phpBB, we only sign in to Symfony
         $this->getContext()->getUser()->signInSymfony($user);

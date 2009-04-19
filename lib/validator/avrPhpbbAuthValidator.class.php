@@ -65,7 +65,7 @@ class avrPhpbbAuthValidator extends sfValidator
 
     // user exists?
     // password is ok?
-    if ($user && $user->checkPassword($password)) {
+    if ($user && avrPhpbbUser::checkPassword($user, $password)) {
       if (!avrPhpbbUser::isActivated($user)) {
         $error = $this->getParameterHolder()->get('activation');
         return false;
@@ -78,6 +78,7 @@ class avrPhpbbAuthValidator extends sfValidator
 
     $this->performSafetyMeasures();
     $error = $this->getParameterHolder()->get('username_error');
+
     return false;
   }
   

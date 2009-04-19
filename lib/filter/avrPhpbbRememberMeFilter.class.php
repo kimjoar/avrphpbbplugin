@@ -26,10 +26,10 @@ class avrPhpbbRememberMeFilter extends sfBasicSecurityFilter
         $key = unserialize(base64_decode($cookie));
 
         $c = new Criteria();
-        myPropelTools::criteriaAdd($c, $this->prefix . 'ProfileFieldData', 'PF_REMEMBER_KEY', $key[0]);
-        myPropelTools::criteriaAdd($c, $this->prefix . 'ProfileFieldData', 'USER_ID', $key[1]);
-        myPropelTools::criteriaAddJoin($c, $this->prefix . 'ProfileFieldData', 'USER_ID', $this->prefix . 'User', 'USER_ID');
-        $user = myPropelTools::invokePeerMethod($this->prefix . 'User', 'doSelectOne', $c);
+        avrPropelTools::criteriaAdd($c, $this->prefix . 'ProfileFieldData', 'PF_REMEMBER_KEY', $key[0]);
+        avrPropelTools::criteriaAdd($c, $this->prefix . 'ProfileFieldData', 'USER_ID', $key[1]);
+        avrPropelTools::criteriaAddJoin($c, $this->prefix . 'ProfileFieldData', 'USER_ID', $this->prefix . 'User', 'USER_ID');
+        $user = avrPropelTools::invokePeerMethod($this->prefix . 'User', 'doSelectOne', $c);
 
         // If the user is found with the given key and user id, the user is logged in. Otherwise nothing happens.
         if ($user) {

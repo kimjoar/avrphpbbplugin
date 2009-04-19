@@ -40,15 +40,15 @@ class avrPhpbbSessions
     $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
 
     $c = new Criteria();
-    myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_user_id', $params['userId']);
+    avrPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_user_id', $params['userId']);
 
     if ($params['sessionId']) {
-      myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_id', md5($params['sessionId']));
+      avrPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_id', md5($params['sessionId']));
     } else {
-      myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_ip', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
+      avrPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_ip', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
     }
 
-    myPropelTools::invokePeerMethod($prefix . 'Sessions', 'doDelete', $c);
+    avrPropelTools::invokePeerMethod($prefix . 'Sessions', 'doDelete', $c);
   }
 
   public static function createSessionKey($params)
@@ -70,15 +70,15 @@ class avrPhpbbSessions
     $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
 
     $c = new Criteria();
-    myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'user_id', $params['userId']);
+    avrPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'user_id', $params['userId']);
 
     if ($params['sessionKey']) {
-      myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'key_id', md5($params['sessionKey']));
+      avrPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'key_id', md5($params['sessionKey']));
     } else {
-      myPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'last_ip', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
+      avrPropelTools::criteriaAdd($c, $prefix . 'SessionsKeys', 'last_ip', sfContext::getInstance()->getRequest()->getHttpHeader('addr', 'remote'));
     }
     
-    myPropelTools::invokePeerMethod($prefix . 'SessionsKeys', 'doDelete', $c);
+    avrPropelTools::invokePeerMethod($prefix . 'SessionsKeys', 'doDelete', $c);
   }
   
   public static function checkCookie($cookieName)
@@ -92,9 +92,9 @@ class avrPhpbbSessions
     
     $c = new Criteria();
     
-    myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_id', $sessionId);
-    myPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_user_id', $userId);
-    $sessions = myPropelTools::invokePeerMethod($prefix . 'Sessions', 'doCount', $c);
+    avrPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_id', $sessionId);
+    avrPropelTools::criteriaAdd($c, $prefix . 'Sessions', 'session_user_id', $userId);
+    $sessions = avrPropelTools::invokePeerMethod($prefix . 'Sessions', 'doCount', $c);
 
     return ($sessions == 1);
   }

@@ -121,11 +121,11 @@ class avrPhpbbConfig
     $c = new Criteria();
 
     if (is_null($dynamic)) {
-      myPropelTools::criteriaAdd($c, $prefix . 'Config', 'is_dynamic', $dynamic ? 1 : 0);
+      avrPropelTools::criteriaAdd($c, $prefix . 'Config', 'is_dynamic', $dynamic ? 1 : 0);
     }
     
     $configValues = array();
-    foreach (myPropelTools::invokePeerMethod($prefix . 'Config', 'doSelect', $c) AS $config) {
+    foreach (avrPropelTools::invokePeerMethod($prefix . 'Config', 'doSelect', $c) AS $config) {
       $configValues[$config->getConfigName()] = $config->getConfigValue();
     }
 
@@ -137,9 +137,9 @@ class avrPhpbbConfig
     $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
     $c = new Criteria();
 
-    myPropelTools::criteriaAdd($c, $prefix . 'Config', 'config_name', $input);
+    avrPropelTools::criteriaAdd($c, $prefix . 'Config', 'config_name', $input);
 
-    $newestUserConfig = myPropelTools::invokePeerMethod($prefix . 'Config', 'doSelectOne', $c);
+    $newestUserConfig = avrPropelTools::invokePeerMethod($prefix . 'Config', 'doSelectOne', $c);
 
     $newestUserConfig->setConfigValue($value);
     $newestUserConfig->save();

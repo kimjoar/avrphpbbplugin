@@ -41,7 +41,7 @@ class avrPhpbbSecurityUser extends sfBasicSecurityUser
   {
     if (!$this->user && $id = $this->getAttribute('user_id', null, 'avrPhpbbSecurityUser'))
     {
-      $this->user = myPropelTools::invokePeerMethod($this->prefix . "Users", "retrieveByPK", $id);
+      $this->user = avrPropelTools::invokePeerMethod($this->prefix . "Users", "retrieveByPK", $id);
 
       if (!$this->user)
       {

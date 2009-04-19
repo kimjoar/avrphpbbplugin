@@ -24,11 +24,11 @@ class avrPhpbbUser
     $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
     
     $c = new Criteria();
-    myPropelTools::criteriaAdd($c, $prefix . 'UserGroup', 'user_id', $user->getUserId());
-    myPropelTools::criteriaAddJoin($c, $prefix . 'UserGroup', 'group_id', $prefix . 'Groups', 'group_id');
+    avrPropelTools::criteriaAdd($c, $prefix . 'UserGroup', 'user_id', $user->getUserId());
+    avrPropelTools::criteriaAddJoin($c, $prefix . 'UserGroup', 'group_id', $prefix . 'Groups', 'group_id');
 
     $groups = array();    
-    foreach(myPropelTools::invokePeerMethod($prefix . 'Groups', 'doSelect', $c) AS $group) {
+    foreach(avrPropelTools::invokePeerMethod($prefix . 'Groups', 'doSelect', $c) AS $group) {
       $groups[] = $group->getGroupName();
     }
     
@@ -40,9 +40,9 @@ class avrPhpbbUser
     $prefix = sfConfig::get('app_phpbb_prefix', 'Phpbb');
     
     $c = new Criteria();
-    myPropelTools::criteriaAdd($c, $prefix . 'Users', 'username', $username);
+    avrPropelTools::criteriaAdd($c, $prefix . 'Users', 'username', $username);
 
-    return myPropelTools::invokePeerMethod($prefix . 'Users', 'doSelectOne', $c);
+    return avrPropelTools::invokePeerMethod($prefix . 'Users', 'doSelectOne', $c);
   }
   
   /**
@@ -53,6 +53,10 @@ class avrPhpbbUser
    */
   public static function isActivated($user)
   {
+    if (method_exists($user, 'isActivated')) {
+      return call_user_func(array($user, 'isActivated'));
+    }
+
     // If activation is not required, the user is per definition activated.
     if (avrPhpbbConfig::getConfigValueFor('require_activation') == 0) {
       return true;
@@ -65,5 +69,14 @@ class avrPhpbbUser
     }
     
     return false;
+  }
+  
+  public static function checkPassword($user, $password)
+  {
+    if (method_exists($user, 'checkPassword')) {
+      return call_user_func(array($user, 'checkPassword'), $password);
+    }
+    
+    return true;
   }
 }
